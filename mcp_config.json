@@ -1,0 +1,28 @@
+{
+  "mcpServers": {
+    "shopify": {
+      "command": "python",
+      "args": ["-m", "src.mcp_servers.shopify_server"],
+      "env": {
+        "SHOPIFY_STORE_URL": "${SHOPIFY_STORE_URL}",
+        "SHOPIFY_ACCESS_TOKEN": "${SHOPIFY_ACCESS_TOKEN}",
+        "SHOPIFY_BLOG_ID": "${SHOPIFY_BLOG_ID}"
+      }
+    },
+    "gsc": {
+      "command": "python",
+      "args": ["-m", "src.mcp_servers.gsc_server"],
+      "env": {
+        "GSC_CREDENTIALS_PATH": "${GSC_CREDENTIALS_PATH}",
+        "GSC_SITE_URL": "${GSC_SITE_URL}"
+      }
+    },
+    "semrush": {
+      "command": "python",
+      "args": ["-m", "src.mcp_servers.semrush_server"],
+      "env": {
+        "SEMRUSH_API_KEY": "${SEMRUSH_API_KEY}"
+      }
+    }
+  }
+}

@@ -5,6 +5,7 @@ from __future__ import annotations
 import asyncio
 import json
 import logging
+import os
 import sys
 from datetime import datetime
 from pathlib import Path
@@ -39,12 +40,26 @@ def _load_mcp_config() -> dict:
     return json.loads(config_path.read_text())
 
 
+def _interpolate_env(env_dict: dict[str, str] | None) -> dict[str, str] | None:
+    """Replace ${VAR_NAME} placeholders with actual environment variable values."""
+    if not env_dict:
+        return env_dict
+    result = {}
+    for key, value in env_dict.items():
+        if isinstance(value, str) and value.startswith("${") and value.endswith("}"):
+            var_name = value[2:-1]
+            result[key] = os.environ.get(var_name, "")
+        else:
+            result[key] = value
+    return result
+
+
 def _server_params(config: dict, server_name: str) -> StdioServerParameters:
     srv = config["mcpServers"][server_name]
     return StdioServerParameters(
         command=srv["command"],
         args=srv.get("args", []),
-        env=srv.get("env"),
+        env=_interpolate_env(srv.get("env")),
     )
 
 

@@ -184,6 +184,7 @@ class BlogGenerator:
                     results.append({
                         "title": post.title,
                         "handle": post.handle,
+                        "target_keyword": post.target_keyword,
                         "shopify_id": post.shopify_article_id,
                         "status": "published",
                     })
@@ -192,6 +193,7 @@ class BlogGenerator:
                     logger.error("Failed to publish %s: %s", post.title, e)
                     results.append({
                         "title": post.title,
+                        "target_keyword": post.target_keyword,
                         "status": "error",
                         "error": str(e),
                     })
